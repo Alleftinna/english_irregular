@@ -1,52 +1,46 @@
-import tkinter as tk
-import get_word
+import tkinter as tk  # import tkinter lib with tk name
+import get_word  # import other project file
 
+size = '900x400'  # str
+window = tk.Tk()  # create main window
+frame = tk.Frame(window, bg='gray')  # Create a frame for buttons in main window
+frame_text = tk.Frame(window, bg='gray')  # Create a frame for text in main window
+sleep_time = 4000  # Delay in ms for auto words switch mode
 
-
-
-
-
-size = '900x400'
-window = tk.Tk()
-frame = tk.Frame(window, bg='gray')
-frame_text = tk.Frame(window, bg='gray')
-sleep_time = 4000
-
-
+# This function sets current words when it called
 def set_words():
     words = get_word.get_rand()
 
-    lable_verbs['text'] = words
+    label_verbs['text'] = words  # Set attribute text to words sting
 
-
+#  This function sets auto words switch mode
 def set_autoload():
-    if check_variable.get():
-        rand_verb_button['state'] = tk.DISABLED
-        words = get_word.get_rand()
-        lable_verbs['text'] = words
-        window.after(sleep_time, set_autoload)
-    else:
-        rand_verb_button['state'] = tk.ACTIVE
+    if check_variable.get():  # If check boks is active
+        next_word_button['state'] = tk.DISABLED  # Set NEXT_WORD button disable
+        words = get_word.get_rand()  # Get next words
+        label_verbs['text'] = words  # Set current words
+        window.after(sleep_time, set_autoload)  # Recall set_autoload function
+    else:  # If not check_box active - set NEXT_WORD button active
+        next_word_button['state'] = tk.ACTIVE
 
 
-check_variable = tk.BooleanVar()
+check_variable = tk.BooleanVar()  # Variable for check_button
 
 window.title('Irregular Verbs')
 window.config(bg='gray')
-window.geometry(size)
+window.geometry(size)  # Set size @size = '900x400'  # str@
 
-a = 'Читать     read    red     red'
-lable_verbs = tk.Label(frame_text, text=get_word.get_rand(),
-                       bg= 'gray',
+label_verbs = tk.Label(frame_text, text=get_word.get_rand(),  # Set label with words
+                       bg='gray',
                        font=('TimesNewRoman', '25', 'bold')
                        )
-rand_verb_button = tk.Button(frame, text='Следующее слово',
+next_word_button = tk.Button(frame, text='Следующее слово',  # set NEXT_WORD BUTTON
                              bg='gray',
                              activebackground='gray',
                              command=set_words,
 
                              )
-check_box = tk.Checkbutton(frame, text="Автоматически",
+check_box = tk.Checkbutton(frame, text="Автоматически",  # set check box button
                            bg='gray',
                            variable=check_variable,
                            command=set_autoload,
@@ -55,16 +49,14 @@ check_box = tk.Checkbutton(frame, text="Автоматически",
                            activebackground='gray',
                            highlightcolor='gray'
 
-
                            )
 
-frame_text.pack(pady=140)
+frame_text.pack(pady=140)  # Place frame for text
 
-frame.pack( pady=10)
-lable_verbs.pack()
-check_box.pack(side='right')
-rand_verb_button.pack(side='left')
+frame.pack(pady=10)  # Set frame for buttons
+label_verbs.pack()  # Place text lable
+check_box.pack(side='right')  # Place check_box
+next_word_button.pack(side='left')  # set NEXT_WORD_BUTTON
 
-
-if __name__ == "__main__":
+if __name__ == "__main__":  # main condition
     window.mainloop()
